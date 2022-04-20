@@ -71,6 +71,24 @@ class SimpleVallibViewController: UIViewController {
             self!.showAlert()
         })
         
+        /**
+         
+         */
+        // Observable<String>
+        let text = usernameOutlet.rx.text.orEmpty.asObservable()
+        // Observable<Bool>
+        let passwordVali = text
+        // Operator
+            .map{$0.count >= minmalUserLength}
+        // Observer<Bool>
+        let observer =  usernameValidOutlet.rx.isHidden
+        // Disposable
+        let dispose = passwordVali
+            .subscribeOn(MainScheduler.instance)
+            .observeOn(MainScheduler.instance)
+            .bind(to: observer)
+        dispose.dispose()
+        
     }
     
     func showAlert() {
