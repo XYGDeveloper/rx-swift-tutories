@@ -15,6 +15,9 @@
 		B5C5911F280F97C500FE316C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5C5911D280F97C500FE316C /* LaunchScreen.storyboard */; };
 		B5C59127280FAFD100FE316C /* Teacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C59126280FAFD000FE316C /* Teacher.swift */; };
 		B5C59129280FB05000FE316C /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C59128280FB05000FE316C /* Comment.swift */; };
+		B5C5912B280FB4F200FE316C /* SimpleVallibViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5912A280FB4F200FE316C /* SimpleVallibViewController.swift */; };
+		B5C5912D280FB7DD00FE316C /* SecodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5912C280FB7DD00FE316C /* SecodViewController.swift */; };
+		B5C5912F280FB7EB00FE316C /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5912E280FB7EB00FE316C /* ThirdViewController.swift */; };
 		FB380050D9C5506E6D57F9E4 /* Pods_RxSwiftDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A66D3966B298DABCAAEBCD9 /* Pods_RxSwiftDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +34,9 @@
 		B5C59120280F97C500FE316C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5C59126280FAFD000FE316C /* Teacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Teacher.swift; sourceTree = "<group>"; };
 		B5C59128280FB05000FE316C /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		B5C5912A280FB4F200FE316C /* SimpleVallibViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleVallibViewController.swift; sourceTree = "<group>"; };
+		B5C5912C280FB7DD00FE316C /* SecodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecodViewController.swift; sourceTree = "<group>"; };
+		B5C5912E280FB7EB00FE316C /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
 		E053737201B0C2ABAB0C12A3 /* Pods-RxSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftDemo.release.xcconfig"; path = "Target Support Files/Pods-RxSwiftDemo/Pods-RxSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,6 +95,9 @@
 				B5C59116280F976F00FE316C /* ViewController.swift */,
 				B5C59126280FAFD000FE316C /* Teacher.swift */,
 				B5C59128280FB05000FE316C /* Comment.swift */,
+				B5C5912A280FB4F200FE316C /* SimpleVallibViewController.swift */,
+				B5C5912C280FB7DD00FE316C /* SecodViewController.swift */,
+				B5C5912E280FB7EB00FE316C /* ThirdViewController.swift */,
 				B5C59118280F976F00FE316C /* Main.storyboard */,
 				B5C5911B280F97C500FE316C /* Assets.xcassets */,
 				B5C5911D280F97C500FE316C /* LaunchScreen.storyboard */,
@@ -212,10 +221,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5C5912B280FB4F200FE316C /* SimpleVallibViewController.swift in Sources */,
 				B5C59129280FB05000FE316C /* Comment.swift in Sources */,
 				B5C59127280FAFD100FE316C /* Teacher.swift in Sources */,
 				B5C59117280F976F00FE316C /* ViewController.swift in Sources */,
 				B5C59113280F976F00FE316C /* AppDelegate.swift in Sources */,
+				B5C5912D280FB7DD00FE316C /* SecodViewController.swift in Sources */,
+				B5C5912F280FB7EB00FE316C /* ThirdViewController.swift in Sources */,
 				B5C59115280F976F00FE316C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

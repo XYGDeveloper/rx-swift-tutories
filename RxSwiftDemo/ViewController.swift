@@ -30,6 +30,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //RxSwift基本用法
+        
         view.addSubview(scrollview)
 //        button.addTarget(self, action: #selector(buttonTap), for: .touchUpInside)
          
@@ -103,34 +106,34 @@ class ViewController: UIViewController {
 //            print(error)
 //        }
         
-        API.token(username: "username", password: "password")
-            .flatMapLatest(API.userInfo)
-            .subscribe(onNext: {
-                userinfo in
-                print(userinfo)
-            }, onError: {
-                error in
-                print(error)
-            })
-            .disposed(by: disposeBag)
+//        API.token(username: "username", password: "password")
+//            .flatMapLatest(API.userInfo)
+//            .subscribe(onNext: {
+//                userinfo in
+//                print(userinfo)
+//            }, onError: {
+//                error in
+//                print(error)
+//            })
+//            .disposed(by: disposeBag)
 
         
         /// 同时取得老师信息和老师评论
         
-        Observable.zip(
-            API.getTeacher(teacherid: "teacherId")
-            API.GetTeacherComment(teacherId: "teacherId")
-        ).subscribe(onNext:{
-            (teacher,comments) in
-            print(teacher)
-            print(comments.count)
-        }, onError: {
-            error in
-            print(error)
-        }, onCompleted: {
-            print("finish")
-        })
-        .disposed(by: disposeBag)
+//        Observable.zip(
+//            API.getTeacher(teacherid: "teacherId")
+//            API.GetTeacherComment(teacherId: "teacherId")
+//        ).subscribe(onNext:{
+//            (teacher,comments) in
+//            print(teacher)
+//            print(comments.count)
+//        }, onError: {
+//            error in
+//            print(error)
+//        }, onCompleted: {
+//            print("finish")
+//        })
+//        .disposed(by: disposeBag)
         
     }
     
@@ -174,13 +177,13 @@ enum API{
 //}
 
 
-enum API{
-    
-    static func getTeacher(teacherid:String)->Observable<Teacher>{
-        
-    }
-    
-    static func GetTeacherComment(teacherId:String)->Observable<[Comment]>{
-        
-    }
-}
+//enum API{
+//
+//    static func getTeacher(teacherid:String)->Observable<Teacher>{
+//
+//    }
+//
+//    static func GetTeacherComment(teacherId:String)->Observable<[Comment]>{
+//
+//    }
+//}
