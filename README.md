@@ -185,6 +185,9 @@ enum API{
 ```
 
 ## 验证输入案例
+### 0. 逻辑思路
+![输入图片说明](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/assets/SimpleValid/All.png)
+
 ### 1. 效果展示
 ![rxswift验证登录](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/assets/SimpleValid/SimpleValidationFull.gif)
 ### 2. 验证登录demo
