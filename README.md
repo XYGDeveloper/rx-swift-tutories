@@ -183,6 +183,19 @@ enum API{
         })
         .disposed(by: disposeBag)
 ```
+### 7. 数据绑定（订阅）
+
+
+```
+let image: UIImage = UIImage(named: ...)
+imageView.image = image
+```
+-》
+
+```
+let image: Observable<UIImage> = ...
+image.bind(to: imageView.rx.image)
+```
 
 ## 验证输入案例
 ### 0. 逻辑思路
