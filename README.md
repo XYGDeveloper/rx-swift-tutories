@@ -309,3 +309,13 @@ class SimpleVallibViewController: UIViewController {
 [函数式编程 -> 函数响应式编程](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/content/think_reactive/functional_reactive_progaramming.html)
 ### 2. 数据绑定（订阅）
 [数据绑定](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/content/think_reactive/data_binding.html)
+## RxSwift核心
+### 1. 序列
+### 2. 观察者
+### 3. 既是可监听序列也是观察者
+### 4. 操作符
+### 4. 可被清除的资源
+### 4. 调度器
+### 4. 错误处理
+
+
