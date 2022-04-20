@@ -288,4 +288,9 @@ class SimpleVallibViewController: UIViewController {
 }
 
 ```
-
+## 函数响应式编程
+![输入图片说明](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/assets/FunctionalReactiveProgramming/FunctionalReactiveProgramming.png)
+### 0. 逻辑思路
+### 0. 逻辑思路
+### 0. 逻辑思路
+### 0. 逻辑思路
