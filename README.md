@@ -153,4 +153,34 @@ enum API{
             .disposed(by: disposeBag)
 ```
 
+### 6. 合并请求
+
+```
+enum API{
+
+    static func getTeacher(teacherid:String)->Observable<Teacher>{
+
+    }
+
+    static func GetTeacherComment(teacherId:String)->Observable<[Comment]>{
+
+    }
+}
+
+    Observable.zip(
+            API.getTeacher(teacherid: "teacherId")
+            API.GetTeacherComment(teacherId: "teacherId")
+        ).subscribe(onNext:{
+            (teacher,comments) in
+            print(teacher)
+            print(comments.count)
+        }, onError: {
+            error in
+            print(error)
+        }, onCompleted: {
+            print("finish")
+        })
+        .disposed(by: disposeBag)
+```
+
 
