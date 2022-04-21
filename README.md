@@ -706,6 +706,140 @@ event.drive(onNext: newObserver)
 - 共享附加作用
 
 ### 2. 观察者
+#### Observer - 观察者 [输入链接说明](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/content/rxswift_core/observer.html)
+#### AnyObserver
+AnyObserver 可以用来描叙任意一种观察者。
+
+
+```
+URLSession.shared.rx.data(request: URLRequest(url: URL(string: "https://api.github.com/repos/XYGDeveloper/RemoteImageView_swiftSPM")!))
+            .subscribe(onNext: {
+                data in
+                print(data)
+            }, onError: {
+                error in
+                print(error)
+            }, onCompleted: {
+                print("finish")
+            })
+            .disposed(by: disposeBag)
+```
+可以看做是：
+
+```
+   let anyObserver:AnyObserver<Data> = AnyObserver{
+            (event) in
+            switch event{
+                case .next(let data):
+                        print(data)
+                case .error(let error):
+                    print(error)
+                case .completed:
+                    print("")
+            }
+        }
+```
+
+
+
+
+```
+let usernameValid = textField.rx.text.orEmpty
+            .map{
+                $0.count >= 6
+            }
+            .share(replay: 1)
+        
+        usernameValid.bind(to: nameLabel.rx.isHidden)
+```
+可以看做是：
+
+```
+ let obser:AnyObserver<Bool>  = AnyObserver{
+            [weak self]
+            (event) in
+            switch event{
+              case .next(let isHidden):
+                self?.nameLabel.isHidden = isHidden
+                break
+            default:
+                break
+            }
+        }
+ usernameValid.bind(to: obser).disposed(by: disposeBag)
+
+```
+
+#### Binder
+Binder 主要有以下两个特征：
+
+
+- 不会处理错误事件
+- 确保绑定都是在给定 Scheduler 上执行（默认 MainScheduler）
+- 一旦产生错误事件，在调试环境下将执行 fatalError，在发布环境下将打印错误信息。
+在介绍 AnyObserver 时，我们举了这样一个例子：
+
+```
+let observer: AnyObserver<Bool> = AnyObserver { [weak self] (event) in
+    switch event {
+    case .next(let isHidden):
+        self?.usernameValidOutlet.isHidden = isHidden
+    default:
+        break
+    }
+}
+
+usernameValid
+    .bind(to: observer)
+    .disposed(by: disposeBag)
+```
+由于这个观察者是一个 UI 观察者，所以它在响应事件时，只会处理 next 事件，并且更新 UI 的操作需要在主线程上执行。
+
+因此一个更好的方案就是使用 Binder：
+
+```
+let obsser:Binder<Bool> = Binder(nameLabel){
+            (view,ishidden) in
+            view.isHidden = ishidden
+        }
+        
+        usernameValid.bind(to: obsser).disposed(by: disposeBag)
+```
+Binder 可以只处理 next 事件，并且保证响应 next 事件的代码一定会在给定 Scheduler 上执行，这里采用默认的 MainScheduler。
+你也可以用这种方式来创建自定义的 UI 观察者。
+
+```
+//nameLabel.rx.isHidde
+extension Reactive where Base: UIView{
+    public var isHidde:Binder<Bool>{
+        return Binder(self.base){
+            view, isHidden in
+            view.isHidden = isHidden
+        }
+    }
+}
+
+//button.rx.isEnabled
+extension Reactive where Base: UIControl{
+    public var isEnabled:Binder<Bool>{
+        return Binder(self.base){
+            control, value in
+            control.isEnabled = value
+        }
+    }
+}
+
+//nameLabel.rx.text
+extension Reactive where Base: UILabel{
+    public var text:Binder<String?>{
+        return Binder(self.base){
+            label, text in
+            label.text = text
+        }
+    }
+}
+```
+
 ### 3. 既是可监听序列也是观察者
 ### 4. 操作符
 ### 4. 可被清除的资源
