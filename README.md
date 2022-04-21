@@ -1,5 +1,5 @@
 # RxSwift_turtus
-![输入图片说明](RxSwift_Logo.png)
+
 ## 介绍
 [RxSwift中文文档](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/content/first_app.html)
 ## 安装指导
@@ -311,6 +311,88 @@ class SimpleVallibViewController: UIViewController {
 [数据绑定](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/content/think_reactive/data_binding.html)
 ## RxSwift核心
 ### 1. 序列
+#### 所有的事物都是序列，
+Observable<Double> 温度，你可以将温度看作是一个序列，然后监测这个温度值，最后对这个值做出响应。例如：当室温高于 33 度时，打开空调降温。Observable<OnePieceEpisode> 《海贼王》动漫，你也可以把《海贼王》的动漫看作是一个序列。然后当《海贼王》更新一集时，我们就立即观看这一集。Observable<JSON> JSON，你可以把网络请求的返回的 JSON 看作是一个序列。然后当取到 JSON 时，将它打印出来。Observable<Void> 任务回调，你可以把任务回调看作是一个序列。当任务结束后，提示用户任务已完成。
+#### 如何创建序列
+现在我们已经可以把生活中的许多事物看作是一个序列了。那么我们要怎么创建这些序列呢？
+
+实际上，框架已经帮我们创建好了许多常用的序列。例如：button的点击，textField的当前文本，switch的开关状态，slider的当前数值等等。
+
+另外，有一些自定义的序列是需要我们自己创建的。这里介绍一下创建序列最基本的方法，例如，我们创建一个 [0, 1, ... 8, 9] 的序列：
+
+```
+var disposeBag = DisposeBag()
+    
+    let numbers:Observable<Int> = Observable.create { observer -> Disposable in
+        observer.onNext(0)
+        observer.onNext(1)
+        observer.onNext(2)
+        observer.onNext(3)
+        observer.onNext(4)
+        observer.onNext(5)
+        observer.onNext(6)
+        observer.onNext(7)
+        observer.onNext(8)
+        observer.onNext(9)
+        observer.onCompleted()
+        return Disposables.create()
+    }
+
+ numbers.subscribe(onNext: {
+            number in
+            print(number)
+        })
+        .disposed(by: disposeBag)
+```
+创建序列最直接的方法就是调用 Observable.create，然后在构建函数里面描述元素的产生过程。 observer.onNext(0) 就代表产生了一个元素，他的值是 0。后面又产生了 9 个元素分别是 1, 2, ... 8, 9 。最后，用 observer.onCompleted() 表示元素已经全部产生，没有更多元素了。
+你可以用这种方式来封装功能组件，例如，闭包回调：
+
+```
+ let json:Observable<JSON> = Observable.create { (observer) -> Disposable in
+        let task = URLSession.shared.dataTask(with: URL(string: "")!) { data, reponse, error in
+            guard error == nil else{
+                observer.onError(error!)
+                return
+            }
+            guard let data = data,let jsonObject = try? JSONSerialization.data(withJSONObject: data, options: .fragmentsAllowed) else {
+                observer.onError(error!)
+                return
+            }
+            observer.onNext(jsonObject)
+            observer.onCompleted()
+        }
+        task.resume()
+        
+        return Disposables.create {
+            task.cancel()
+        }
+
+
+ json.subscribe(onNext: {
+            jsonObject in
+            print(jsonObject)
+        }, onError: {
+            error in
+            print(error)
+        }, onCompleted: {
+            print("finish")
+        })
+        .disposed(by: disposeBag)
+```
+#### Event - 事件
+
+```
+public enum Event<Element> {
+    case next(Element)
+    case error(Swift.Error)
+    case completed
+}
+```
+
+- next - 序列产生了一个新的元素
+- error - 创建序列时产生了一个错误，导致序列终止
+- completed - 序列的所有元素都已经成功产生，整个序列已经完成
+
 ### 2. 观察者
 ### 3. 既是可监听序列也是观察者
 ### 4. 操作符
