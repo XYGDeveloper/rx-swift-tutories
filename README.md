@@ -1245,6 +1245,79 @@ class ThirdViewController: UIViewController {
 }
 ```
 调用 dispose 方法后，订阅将被取消，并且内部资源都会被释放。通常情况下，你是不需要手动调用 dispose 方法的，这里只是做个演示而已。我们推荐使用 清除包（DisposeBag） 或者 takeUntil 操作符 来管理订阅的生命周期。
+![输入图片说明](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/assets/Disposable/DisposeBag.png)
+因为我们用的是 Swift ，所以我们更习惯于使用 ARC 来管理内存。那么我们能不能用 ARC 来管理订阅的生命周期了。答案是肯定了，你可以用 清除包（DisposeBag） 来实现这种订阅管理机制：
+
+```
+import UIKit
+import RxSwift
+
+class ThirdViewController: UIViewController {
+    @IBOutlet weak var textfield: UITextField!
+    
+//    var disposable:Disposable?
+    
+    //arc
+    var disposeBag = DisposeBag()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        disposable = textfield.rx.text.orEmpty
+//            .subscribe(onNext: {
+//                text in
+//                print(text)
+//            })
+        textfield.rx.text.orEmpty.subscribe(onNext: {
+            field in
+            print(field)
+        }).disposed(by: disposeBag)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+//        disposable?.dispose()
+        self.disposeBag = DisposeBag()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+
+}
+```
+当 清除包 被释放的时候，清除包 内部所有 可被清除的资源（Disposable） 都将被清除。在输入验证中我们也多次看到 清除包 的身影：
+
+```
+var disposeBag = DisposeBag() // 来自父类 ViewController
+
+override func viewDidLoad() {
+    super.viewDidLoad()
+
+    ...
+
+    usernameValid
+        .bind(to: passwordOutlet.rx.isEnabled)
+        .disposed(by: disposeBag)
+
+    usernameValid
+        .bind(to: usernameValidOutlet.rx.isHidden)
+        .disposed(by: disposeBag)
+
+    passwordValid
+        .bind(to: passwordValidOutlet.rx.isHidden)
+        .disposed(by: disposeBag)
+
+    everythingValid
+        .bind(to: doSomethingOutlet.rx.isEnabled)
+        .disposed(by: disposeBag)
+
+    doSomethingOutlet.rx.tap
+        .subscribe(onNext: { [weak self] in self?.showAlert() })
+        .disposed(by: disposeBag)
+}
+```
+这个例子中 disposeBag 和 ViewController 具有相同的生命周期。当退出页面时， ViewController 就被释放，disposeBag 也跟着被释放了，那么这里的 5 次绑定（订阅）也就被取消了。这正是我们所需要的
 
 ### 4. 调度器
 ### 4. 错误处理
