@@ -1320,8 +1320,41 @@ override func viewDidLoad() {
 这个例子中 disposeBag 和 ViewController 具有相同的生命周期。当退出页面时， ViewController 就被释放，disposeBag 也跟着被释放了，那么这里的 5 次绑定（订阅）也就被取消了。这正是我们所需要的
 ![输入图片说明](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/assets/Disposable/TakeUntil.png)
 #### takeUntil
+![输入图片说明](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/assets/Disposable/TakeUntil.png)
+另外一种实现自动取消订阅的方法就是使用 takeUntil 操作符，上面那个输入验证的演示代码也可以通过使用 takeUntil 来实现：
 
-### 4. 调度器
+```
+override func viewDidLoad() {
+    super.viewDidLoad()
+
+    ...
+
+    _ = usernameValid
+        .takeUntil(self.rx.deallocated)
+        .bind(to: passwordOutlet.rx.isEnabled)
+
+    _ = usernameValid
+        .takeUntil(self.rx.deallocated)
+        .bind(to: usernameValidOutlet.rx.isHidden)
+
+    _ = passwordValid
+        .takeUntil(self.rx.deallocated)
+        .bind(to: passwordValidOutlet.rx.isHidden)
+
+    _ = everythingValid
+        .takeUntil(self.rx.deallocated)
+        .bind(to: doSomethingOutlet.rx.isEnabled)
+
+    _ = doSomethingOutlet.rx.tap
+        .takeUntil(self.rx.deallocated)
+        .subscribe(onNext: { [weak self] in self?.showAlert() })
+}
+```
+这将使得订阅一直持续到控制器的 dealloc 事件产生为止。
+
+注意⚠️：这里配图中所使用的 Observable 都是“热” Observable，它可以帮助我们理解订阅的生命周期。如果你想要了解 “冷热” Observable 之间的区别，可以参考官方文档 Hot and Cold Observables。
+### 6. Schedulers - 调度器
+#### 
 ### 4. 错误处理
 
 
