@@ -1208,11 +1208,44 @@ Comment(commentId: "2", content: "c2")
 Teacher(teacherId: "3", teacherName: "tanme3")
 Comment(commentId: "3", content: "c3")
 ```
+#### [更多操作符](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/content/rxswift_core/operator.html)
+### 5. Disposable - 可被清除的资源
+![输入图片说明](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/assets/Disposable/Disposable.png)
+通常来说，一个序列如果发出了 error 或者 completed 事件，那么所有内部资源都会被释放。如果你需要提前释放这些资源或取消订阅的话，那么你可以对返回的 可被清除的资源（Disposable） 调用 dispose 方法：
 
+```
+import UIKit
+import RxSwift
 
-这里 map 和 combineLatest 都是操作符，它们可以帮助我们构建所需要的序列。现在，我们再来看几个例子：
+class ThirdViewController: UIViewController {
+    @IBOutlet weak var textfield: UITextField!
+    
+    var disposable:Disposable?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        disposable = textfield.rx.text.orEmpty
+            .subscribe(onNext: {
+                text in
+                print(text)
+            })
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        disposable?.dispose()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-### 4. 可被清除的资源
+        // Do any additional setup after loading the view.
+    }
+  
+
+}
+```
+调用 dispose 方法后，订阅将被取消，并且内部资源都会被释放。通常情况下，你是不需要手动调用 dispose 方法的，这里只是做个演示而已。我们推荐使用 清除包（DisposeBag） 或者 takeUntil 操作符 来管理订阅的生命周期。
+
 ### 4. 调度器
 ### 4. 错误处理
 
