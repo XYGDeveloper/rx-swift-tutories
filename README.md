@@ -1318,6 +1318,8 @@ override func viewDidLoad() {
 }
 ```
 这个例子中 disposeBag 和 ViewController 具有相同的生命周期。当退出页面时， ViewController 就被释放，disposeBag 也跟着被释放了，那么这里的 5 次绑定（订阅）也就被取消了。这正是我们所需要的
+![输入图片说明](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/assets/Disposable/TakeUntil.png)
+#### takeUntil
 
 ### 4. 调度器
 ### 4. 错误处理
