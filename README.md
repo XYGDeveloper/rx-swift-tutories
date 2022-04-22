@@ -1016,6 +1016,202 @@ behavi: 22
 - 共享附加作用
 
 ### 4. 操作符
+ **操作符可以帮助大家创建新的序列，或者变化组合原有的序列，从而生成一个新的序列。
+** 
+我们之前在输入验证例子中就多次运用到操作符。例如，通过 map 方法将输入的用户名，转换为用户名是否有效。然后用这个转化后来的序列来控制红色提示语是否隐藏。我们还通过 combineLatest 方法，将用户名是否有效和密码是否有效合并成两者是否同时有效。然后用这个合成后来的序列来控制按钮是否可点击。
+#### filter - 过滤
+你可以用 filter 创建一个新的序列。这个序列只发出温度大于 33 度的元素。
+
+```
+let operatures:Observable<Double> = Observable.create { observe -> Disposable in
+            observe.onNext(28.55)
+            observe.onNext(26.66)
+            observe.onNext(30.55)
+            observe.onNext(33.01)
+            observe.onNext(35.66)
+            observe.onCompleted()
+            return Disposables.create()
+        }
+        
+        operatures.filter{ tempture in tempture >= 30.00 }
+            .subscribe(onNext: {
+                tempture in
+                print(tempture)
+            })
+            .disposed(by: disposeBag)
+```
+输出结果
+
+```
+30.55
+33.01
+35.66
+```
+
+#### map - 转换
+你可以用 map 创建一个新的序列。这个序列将原有的 JSON 转换成 Model 。这种转换实际上就是解析 JSON 。
+
+```
+     let json:Observable<JSON> = Observable.create { (observer) -> Disposable in
+            let url = URL(string: "https://api.github.com/repos/XYGDeveloper/RemoteImageView_swiftSPM")!
+                let task = URLSession.shared.dataTask(with:url) { data, reponse, error in
+                    guard error == nil else{
+                        observer.onError(error!)
+                        return
+                    }
+                    guard let data = data,let jsonObject = try? JSONSerialization.data(withJSONObject: data, options: .fragmentsAllowed) else {
+                        observer.onError(error!)
+                        return
+                    }
+                    observer.onNext(jsonObject)
+                    observer.onCompleted()
+                }
+                task.resume()
+                
+                return Disposables.create {
+                    task.cancel()
+                }
+        }
+        
+        json.map(GithubModel.init)
+            .subscribe(onNext: {
+                model in
+                print(model)
+            })
+            .disposed(by: disposeBag)
+```
+GithubModel:
+
+```
+import UIKit
+
+struct GithubModel {
+    var id = 0
+    var node_id = ""
+    var name = ""
+    var full_name = ""
+    var html_url = ""
+    var fork = true
+    var url = ""
+    var forks_url = ""
+    var keys_url = ""
+    var collaborators_url = ""
+    var teams_url = ""
+    var hooks_url = ""
+    var issue_events_url = ""
+    var events_url = ""
+    var assignees_url = ""
+    var branches_url = ""
+    var tags_url = ""
+    var blobs_url = ""
+    var git_tags_url = ""
+    var git_refs_url = ""
+    var trees_url = ""
+    var statuses_url = ""
+    var languages_url = ""
+    var stargazers_url = ""
+    var contributors_url = ""
+    var subscribers_url = ""
+    var commits_url = ""
+    var compare_url = ""
+    var merges_url = ""
+    var clone_url = ""
+    var svn_url = ""
+     
+}
+
+```
+
+#### zip - 配对
+案例1：
+
+```
+ Observable.zip(
+            API.getTeacher(teacherid: "teacherId")
+            API.GetTeacherComment(teacherId: "teacherId")
+        ).subscribe(onNext:{
+            (teacher,comments) in
+            print(teacher)
+            print(comments.count)
+        }, onError: {
+            error in
+            print(error)
+        }, onCompleted: {
+            print("finish")
+        })
+        .disposed(by: disposeBag)
+```
+案例2：
+
+```
+ let rxHamburgs:Observable<Teacher> = Observable.create { ob -> Disposable in
+            var teach1 = Teacher()
+            teach1.teacherId = "1"
+            teach1.teacherName = "tanme1"
+            var t2 = Teacher()
+            t2.teacherId = "2"
+            t2.teacherName = "tanme2"
+            var t3 = Teacher()
+            t3.teacherId = "3"
+            t3.teacherName = "tanme3"
+            var t4 = Teacher()
+            t4.teacherId = "4"
+            t4.teacherName = "tanme4"
+            ob.onNext(teach1)
+            ob.onNext(t2)
+            ob.onNext(t3)
+            ob.onNext(t4)
+            ob.onCompleted()
+            return Disposables.create()
+        }
+        
+        let rxFrenchFries:Observable<Comment> = Observable.create{
+            ob1 -> Disposable in
+            var comm1 = Comment()
+            comm1.commentId  = "1"
+            comm1.content  = "c1"
+            
+            var comm2 = Comment()
+            comm2.commentId  = "2"
+            comm2.content  = "c2"
+            
+            var comm3 = Comment()
+            comm3.commentId  = "3"
+            comm3.content  = "c3"
+            ob1.onNext(comm1)
+            ob1.onNext(comm2)
+            ob1.onNext(comm3)
+            ob1.onCompleted()
+            return Disposables.create()
+        }
+        
+        Observable.zip(rxHamburgs,rxFrenchFries)
+            .subscribe(onNext: {
+                (teacher,comment) in
+                print(teacher)
+                print(comment)
+            }, onError: {
+                error in
+                print(error)
+            }, onCompleted: {
+                
+            })
+            .disposed(by: disposeBag)
+```
+输出结果：
+
+```
+Teacher(teacherId: "1", teacherName: "tanme1")
+Comment(commentId: "1", content: "c1")
+Teacher(teacherId: "2", teacherName: "tanme2")
+Comment(commentId: "2", content: "c2")
+Teacher(teacherId: "3", teacherName: "tanme3")
+Comment(commentId: "3", content: "c3")
+```
+
+
+这里 map 和 combineLatest 都是操作符，它们可以帮助我们构建所需要的序列。现在，我们再来看几个例子：
+
 ### 4. 可被清除的资源
 ### 4. 调度器
 ### 4. 错误处理
