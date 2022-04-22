@@ -7,8 +7,18 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 typealias JSON = Any
 class SecodViewController: UIViewController {
+    
+    @IBOutlet weak var textField: UITextField!
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    
+    @IBOutlet weak var sizeNameLabel: UILabel!
+    
+    @IBOutlet weak var button: UIButton!
+    
     var disposeBag = DisposeBag()
     
     let numbers:Observable<Int> = Observable.create { observer -> Disposable in
@@ -146,6 +156,106 @@ class SecodViewController: UIViewController {
         })
         .disposed(by: disposeBag)
         
+        //
+        textField.text  = "driver"
+        let status:Driver<String?> = textField.rx.text.asDriver()
+        let observer = nameLabel.rx.text
+        status.drive(observer)
+        let newObsever = sizeNameLabel.rx.text.asObserver()
+        status.map{$0?.count.description}.drive(newObsever)
+        
+        //
+        URLSession.shared.rx.data(request: URLRequest(url: URL(string: "https://api.github.com/repos/XYGDeveloper/RemoteImageView_swiftSPM")!))
+            .subscribe(onNext: {
+                data in
+                print(data)
+            }, onError: {
+                error in
+                print(error)
+            }, onCompleted: {
+                print("finish")
+            })
+            .disposed(by: disposeBag)
+        
+        let anyObserver:AnyObserver<Data> = AnyObserver{
+            (event) in
+            switch event{
+                case .next(let data):
+                        print(data)
+                case .error(let error):
+                    print(error)
+                case .completed:
+                    print("")
+            }
+        }
+        
+        //
+        let usernameValid = textField.rx.text.orEmpty
+            .map{
+                $0.count >= 6
+            }
+            .share(replay: 1)
+        
+        usernameValid.bind(to: nameLabel.rx.isHidden)
+        
+        let obser:AnyObserver<Bool>  = AnyObserver{
+            [weak self]
+            (event) in
+            switch event{
+              case .next(let isHidden):
+                self?.nameLabel.isHidden = isHidden
+                break
+            default:
+                break
+            }
+        }
+        usernameValid.bind(to: obser).disposed(by: disposeBag)
+        
+        //
+        
+        let obsser:Binder<Bool> = Binder(nameLabel){
+            (view,ishidden) in
+            view.isHidden = ishidden
+        }
+        
+        usernameValid.bind(to: obsser).disposed(by: disposeBag)
+        
+        
+//        nameLabel.rx.isHidde
+//        usernameValid.bind(to: nameLabel.rx.isHidde).disposed(by: disposeBag)
+//        button.rx.isEnabled
+//        nameLabel.rx.text
+        
+//        let json:Observable<JSON> = Observable.create { (observer) -> Disposable in
+//            let url = URL(string: "https://api.github.com/repos/XYGDeveloper/RemoteImageView_swiftSPM")!
+//                let task = URLSession.shared.dataTask(with:url) { data, reponse, error in
+//                    guard error == nil else{
+//                        observer.onError(error!)
+//                        return
+//                    }
+//                    guard let data = data,let jsonObject = try? JSONSerialization.data(withJSONObject: data, options: .fragmentsAllowed) else {
+//                        observer.onError(error!)
+//                        return
+//                    }
+//                    observer.onNext(jsonObject)
+//                    observer.onCompleted()
+//                }
+//                task.resume()
+//
+//                return Disposables.create {
+//                    task.cancel()
+//                }
+//        }
+//
+//        json.map(GithubModel.init)
+//            .subscribe(onNext: {
+//                model in
+//                print(model)
+//            })
+//            .disposed(by: disposeBag)
+        
+        
+        
     }
     
 
@@ -160,3 +270,35 @@ class SecodViewController: UIViewController {
     */
 
 }
+
+//nameLabel.rx.isHidde
+extension Reactive where Base: UIView{
+    public var isHidde:Binder<Bool>{
+        return Binder(self.base){
+            view, isHidden in
+            view.isHidden = isHidden
+        }
+    }
+}
+
+//button.rx.isEnabled
+extension Reactive where Base: UIControl{
+    public var isEnabled:Binder<Bool>{
+        return Binder(self.base){
+            control, value in
+            control.isEnabled = value
+        }
+    }
+}
+
+//nameLabel.rx.text
+extension Reactive where Base: UILabel{
+    public var text:Binder<String?>{
+        return Binder(self.base){
+            label, text in
+            label.text = text
+        }
+    }
+}
+
+

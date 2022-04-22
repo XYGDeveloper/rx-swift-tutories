@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 class ViewController: UIViewController {
+    
     lazy var button: UIButton = {
         let button = UIButton(frame: CGRect(x: 100, y: 200, width: 200, height: 50))
         button.backgroundColor = UIColor.red
@@ -134,6 +135,64 @@ class ViewController: UIViewController {
 //            print("finish")
 //        })
 //        .disposed(by: disposeBag)
+        
+        let rxHamburgs:Observable<Teacher> = Observable.create { ob -> Disposable in
+            var teach1 = Teacher()
+            teach1.teacherId = "1"
+            teach1.teacherName = "tanme1"
+            var t2 = Teacher()
+            t2.teacherId = "2"
+            t2.teacherName = "tanme2"
+            var t3 = Teacher()
+            t3.teacherId = "3"
+            t3.teacherName = "tanme3"
+            var t4 = Teacher()
+            t4.teacherId = "4"
+            t4.teacherName = "tanme4"
+            ob.onNext(teach1)
+            ob.onNext(t2)
+            ob.onNext(t3)
+            ob.onNext(t4)
+            ob.onCompleted()
+            return Disposables.create()
+        }
+        
+        let rxFrenchFries:Observable<Comment> = Observable.create{
+            ob1 -> Disposable in
+            var comm1 = Comment()
+            comm1.commentId  = "1"
+            comm1.content  = "c1"
+            
+            var comm2 = Comment()
+            comm2.commentId  = "2"
+            comm2.content  = "c2"
+            
+            var comm3 = Comment()
+            comm3.commentId  = "3"
+            comm3.content  = "c3"
+            ob1.onNext(comm1)
+            ob1.onNext(comm2)
+            ob1.onNext(comm3)
+            ob1.onCompleted()
+            return Disposables.create()
+        }
+        
+        Observable.zip(rxHamburgs,rxFrenchFries)
+            .subscribe(onNext: {
+                (teacher,comment) in
+                print(teacher)
+                print(comment)
+            }, onError: {
+                error in
+                print(error)
+            }, onCompleted: {
+                
+            })
+            .disposed(by: disposeBag)
+        
+        
+        
+        
         
     }
     

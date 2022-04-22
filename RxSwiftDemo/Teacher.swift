@@ -8,7 +8,7 @@
 import UIKit
 
 struct Teacher {
-    let teacherId:String = ""
-    let teacherName = ""
+    var teacherId:String = ""
+    var teacherName = ""
     
 }
