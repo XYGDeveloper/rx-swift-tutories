@@ -1354,6 +1354,7 @@ override func viewDidLoad() {
 
 注意⚠️：这里配图中所使用的 Observable 都是“热” Observable，它可以帮助我们理解订阅的生命周期。如果你想要了解 “冷热” Observable 之间的区别，可以参考官方文档 Hot and Cold Observables。
 ### 6. Schedulers - 调度器
+![输入图片说明](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/assets/Schedulers/Scheduler.png)
 #### 
 ### 4. 错误处理
 
