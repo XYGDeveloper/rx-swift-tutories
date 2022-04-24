@@ -1672,3 +1672,5 @@ updateUserInfoButton.rx.tap
 这样我们的错误事件被包装成了 Result.failure(Error) 元素，就不会终止整个序列。即便网络请求失败了，整个订阅依然存在。如果用户再次点击更新按钮，也是能够发起网络请求进行更新操作的。
 
 另外你也可以使用 materialize 操作符来进行错误处理。这里就不详细介绍了，如你想了解如何使用 materialize 可以参考这篇文章 How to handle errors in RxSwift!
+### 如何选择操作符？
+[如何选择操作符？](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/content/decision_tree.html)
