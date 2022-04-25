@@ -196,6 +196,58 @@ imageView.image = image
 let image: Observable<UIImage> = ...
 image.bind(to: imageView.rx.image)
 ```
+### 8. 图片选择器（imagepicker）
+
+```
+ // 拍照获取图片
+        camerabutton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        camerabutton.rx.tap
+            .flatMapLatest{
+                [weak self] _ in
+                return UIImagePickerController.rx.createWithParent(self){
+                    picker in
+                    picker.sourceType = .camera
+                    picker.allowsEditing = false
+                }
+                .flatMap{$0.rx.didFinishPickingMediaWithInfo}
+                .take(1)
+            }
+            .map{ info in return info[.originalImage] as? UIImage}
+            .bind(to: imageview.rx.image)
+            .disposed(by: disposeBag)
+       
+        // 图片库获取图片
+        libararyButton.rx.tap
+            .flatMapLatest{
+                [weak self] _ in
+                return UIImagePickerController.rx.createWithParent(self){
+                    picker in
+                    picker.sourceType = .photoLibrary
+                    picker.allowsEditing = false
+                }
+                .flatMap{$0.rx.didFinishPickingMediaWithInfo}
+                .take(1)
+            }
+            .map{ info in return info[.originalImage] as? UIImage}
+            .bind(to: imageview.rx.image)
+            .disposed(by: disposeBag)
+        
+        // 图片库编辑并获取
+        dropButton.rx.tap
+            .flatMapLatest{
+                [weak self] _ in
+                return UIImagePickerController.rx.createWithParent(self){
+                    picker in
+                    picker.sourceType = .photoLibrary
+                    picker.allowsEditing = true
+                }
+                .flatMap{$0.rx.didFinishPickingMediaWithInfo}
+                .take(1)
+            }
+            .map{ info in return info[.originalImage] as? UIImage}
+            .bind(to: imageview.rx.image)
+            .disposed(by: disposeBag)
+```
 
 ## 验证输入案例
 ### 0. 逻辑思路
