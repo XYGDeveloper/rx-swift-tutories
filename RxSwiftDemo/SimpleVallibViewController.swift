@@ -41,9 +41,17 @@ class SimpleVallibViewController: UIViewController {
         usernameValid.bind(to: passwordOutlet.rx.isEnabled)
             .disposed(by: disposeBag)
         
+        // 在dealloc时dispose
+//        usernameValid.takeUntil(self.rx.deallocated)
+//            .bind(to: passwordOutlet.rx.isEnabled)
+        
+        
         // 用户名是否有效 -> 用户名提示语是否隐藏
         usernameValid.bind(to: usernameValidOutlet.rx.isHidden)
             .disposed(by: disposeBag)
+        
+//        usernameValid.takeUntil(self.rx.deallocated)
+//            .bind(to: usernameValidOutlet.rx.isHidde)
         
         // 密码是否有效
         let passwordValid = passwordOutlet.rx.text.orEmpty
@@ -221,6 +229,10 @@ class SimpleVallibViewController: UIViewController {
                 }
             }
         }
+        
+        
+        
+        //
         
         
     }
