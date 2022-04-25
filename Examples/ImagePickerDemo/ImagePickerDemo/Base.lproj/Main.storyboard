@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ImagePickerDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Unq-Zo-6G1">
+                                <rect key="frame" x="81.5" y="63" width="251" height="189"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="189" id="eUf-GJ-PWz"/>
+                                    <constraint firstAttribute="width" constant="251" id="gAd-OB-AWZ"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVS-b5-WHA">
+                                <rect key="frame" x="31" y="288" width="352" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="352" id="RK5-NN-iaI"/>
+                                    <constraint firstAttribute="height" constant="31" id="SDF-hE-YgE"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="camera"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZLw-HA-xmy">
+                                <rect key="frame" x="31" y="336" width="352" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="352" id="iSb-Hg-MtQ"/>
+                                    <constraint firstAttribute="height" constant="31" id="y1n-yK-OKy"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="libarary"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6bi-cF-bx4">
+                                <rect key="frame" x="31" y="377" width="352" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="7xf-yd-GZg"/>
+                                    <constraint firstAttribute="width" constant="352" id="eMb-xS-h0f"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="drop"/>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Unq-Zo-6G1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0Fo-tt-Igy"/>
+                            <constraint firstItem="Unq-Zo-6G1" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-290.5" id="7QW-uO-TP8"/>
+                            <constraint firstItem="ZLw-HA-xmy" firstAttribute="top" secondItem="gVS-b5-WHA" secondAttribute="bottom" constant="17" id="Gm4-vf-rmo"/>
+                            <constraint firstItem="gVS-b5-WHA" firstAttribute="top" secondItem="Unq-Zo-6G1" secondAttribute="bottom" constant="36" id="buw-Ov-GVx"/>
+                            <constraint firstItem="6bi-cF-bx4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kic-rz-aAc"/>
+                            <constraint firstItem="ZLw-HA-xmy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="luK-aZ-D9I"/>
+                            <constraint firstItem="6bi-cF-bx4" firstAttribute="top" secondItem="ZLw-HA-xmy" secondAttribute="bottom" constant="10" id="oJZ-qZ-QoX"/>
+                            <constraint firstItem="gVS-b5-WHA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="t6b-NM-2zI"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="camerabutton" destination="gVS-b5-WHA" id="noZ-U5-0bu"/>
+                        <outlet property="dropButton" destination="6bi-cF-bx4" id="l3A-Ca-was"/>
+                        <outlet property="imageview" destination="Unq-Zo-6G1" id="8Qy-S0-zGi"/>
+                        <outlet property="libararyButton" destination="ZLw-HA-xmy" id="61C-K3-a8v"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="28.985507246376812" y="69.642857142857139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
