@@ -73,3 +73,39 @@ extension UITableView{
     }
 }
 
+
+
+// 简单的tableview列表展示
+//-----------------------------------------------
+/*
+let items = Observable.just(
+    (0..<20).map { "\($0)" }
+)
+
+items
+    .bind(to: tableview.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self)) { (row, element, cell) in
+        cell.textLabel?.text = "\(element) @ row \(row)"
+    }
+    .disposed(by: dispose)
+
+
+tableview.rx
+    .modelSelected(String.self)
+    .subscribe(onNext:  { value in
+        print(value)
+//                DefaultWireframe.presentAlert("Tapped `\(value)`")
+    })
+    .disposed(by:dispose)
+
+tableview.rx
+    .itemAccessoryButtonTapped
+    .subscribe(onNext: { indexPath in
+//                DefaultWireframe.presentAlert("Tapped Detail @ \(indexPath.section),\(indexPath.row)")
+        print(indexPath.section)
+        print(indexPath.row)
+    })
+    .disposed(by: dispose)
+ */
+//-----------------------------------------------
+
+

@@ -6,12 +6,19 @@
 //
 
 import UIKit
+import RxSwift
 
-class SecondViewController: UIViewController {
+class SecondViewController: UIViewController,UITableViewDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let items = Observable.just(
+            (0...20).map{
+                "\($0)"
+            }
+        )
+        items.bind(to: )
+        
         // Do any additional setup after loading the view.
     }
     
